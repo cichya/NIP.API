@@ -11,5 +11,6 @@ namespace NIP.API.Models
 		public int QueryId { get; set; }
 		public string HeaderName { get; set; }
 		public string HeaderValue { get; set; }
+		public QueryModel Query { get; set; }
 	}
 }
