@@ -37,6 +37,7 @@ namespace NIP.API
 			services.AddCors();
 
 			services.AddScoped<ICompanyRepository, CompanyRepository>();
+			services.AddScoped<IQueryRepository, QueryRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
