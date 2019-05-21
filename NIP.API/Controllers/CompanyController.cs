@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NIP.API.Helpers;
 using NIP.API.Models;
+using NIP.API.Repositories;
 
 namespace NIP.API.Controllers
 {
@@ -13,23 +14,24 @@ namespace NIP.API.Controllers
 	[ApiController]
 	public class CompanyController : ControllerBase
 	{
+		private readonly ICompanyRepository companyRepository;
+
+		public CompanyController(ICompanyRepository companyRepository)
+		{
+			this.companyRepository = companyRepository;
+		}
+
 		[HttpGet]
 		public async Task<IActionResult> GetCompany([FromQuery] FilterParams filterParams)
 		{
-			var mock = new CompanyModel
-			{
-				Id = 1,
-				City = "Poznan",
-				Name = "JanuszSoft",
-				NationalBusinessRegistryNumber = "123456789",
-				NationalCourtRegister = "0000123456",
-				TaxNumber = "0987654321",
-				PostalCode = "11-098",
-				Street = "Poznanska",
-				StreetNumber = "1"
-			};
+			var company = await this.companyRepository.Get(filterParams);
 
-			return this.Ok(mock);
+			if (company == null)
+			{
+				return this.NotFound();
+			}
+
+			return this.Ok(company);
 		}
 	}
 }

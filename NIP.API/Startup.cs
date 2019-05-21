@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NIP.API.Data;
 using NIP.API.Helpers;
+using NIP.API.Repositories;
 
 namespace NIP.API
 {
@@ -34,6 +35,12 @@ namespace NIP.API
 			services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+			services.AddCors();
+
+			services.AddScoped<ICompanyRepository, CompanyRepository>();
+			services.AddScoped<IQueryRepository, QueryRepository>();
+			services.AddScoped<IHeaderRepository, HeaderRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
