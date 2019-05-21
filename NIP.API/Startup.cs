@@ -41,6 +41,7 @@ namespace NIP.API
 			services.AddScoped<ICompanyRepository, CompanyRepository>();
 			services.AddScoped<IQueryRepository, QueryRepository>();
 			services.AddScoped<IHeaderRepository, HeaderRepository>();
+			services.AddScoped<IHeaderService, HeaderService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
