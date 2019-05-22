@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using NIP.API.Data;
 using NIP.API.Helpers;
 using NIP.API.Repositories;
+using NIP.API.Services;
 
 namespace NIP.API
 {
@@ -42,6 +43,7 @@ namespace NIP.API
 			services.AddScoped<IQueryRepository, QueryRepository>();
 			services.AddScoped<IHeaderRepository, HeaderRepository>();
 			services.AddScoped<IHeaderService, HeaderService>();
+			services.AddScoped<IQueryService, QueryService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
