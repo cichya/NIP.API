@@ -35,6 +35,7 @@ namespace NIP.API.Controllers
 		}
 
 		[HttpGet]
+		[RequiredFromQueryParam]
 		public async Task<IActionResult> GetCompany([FromQuery] FilterParams filterParams)
 		{
 			var query = this.queryService.GetQueryModelFromFilterParams(filterParams);
