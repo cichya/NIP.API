@@ -37,12 +37,17 @@ namespace NIP.API.Services
 				};
 			}
 
-			return new QueryModel
+			if (filterParams.Regon != null)
 			{
-				QueryParamName = RegonParam,
-				QueryParamValue = filterParams.Regon,
-				InsertDate = DateTime.Now
-			};
+				return new QueryModel
+				{
+					QueryParamName = RegonParam,
+					QueryParamValue = filterParams.Regon,
+					InsertDate = DateTime.Now
+				};
+			}
+
+			return null;
 		}
 	}
 }
