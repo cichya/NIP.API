@@ -39,6 +39,11 @@ namespace NIP.API.Controllers
 		{
 			var query = this.queryService.GetQueryModelFromFilterParams(filterParams);
 
+			if (query == null)
+			{
+				return this.NotFound();
+			}
+
 			query.Headers = new List<HeaderModel>();
 			
 			var headers = this.headerService.GetHeaderEntityFromRequestHeaders(this.Request.Headers);

@@ -25,6 +25,37 @@ namespace NIP.API.Tests
 		private Mock<IQueryService> queryServiceMock;
 
 		[TestMethod]
+		public async Task GetCompany_QueryService_GetQueryModelFromFilterParams_Return_Null_Return_NotFound_Test()
+		{
+			QueryModel query = null;
+
+			this.queryServiceMock.Setup(m => m.GetQueryModelFromFilterParams(It.IsAny<FilterParams>())).Returns(query);
+
+			var target = new CompanyController(this.companyRepositoryMock.Object,
+				this.queryRepositoryMock.Object,
+				this.headerRepositoryMock.Object,
+				this.headerServiceMock.Object,
+				this.queryServiceMock.Object);
+
+			target.ControllerContext = new ControllerContext();
+			target.ControllerContext.HttpContext = new DefaultHttpContext();
+			target.ControllerContext.HttpContext.Request.Headers["header1"] = "value1";
+
+			var result = await target.GetCompany(new FilterParams());
+
+			var notFoundResult = result as NotFoundResult;
+
+			Assert.IsNotNull(notFoundResult);
+
+			this.queryServiceMock.Verify(m => m.GetQueryModelFromFilterParams(It.IsAny<FilterParams>()), Times.Once);
+			this.headerServiceMock.Verify(m => m.GetHeaderEntityFromRequestHeaders(It.IsAny<IHeaderDictionary>()), Times.Never);
+			this.headerRepositoryMock.Verify(m => m.Add(It.IsAny<HeaderModel>()), Times.Never);
+			this.queryRepositoryMock.Verify(m => m.Add(It.IsAny<QueryModel>()), Times.Never);
+			this.queryRepositoryMock.Verify(m => m.SaveAll(), Times.Never);
+			this.companyRepositoryMock.Verify(m => m.Get(It.IsAny<FilterParams>()), Times.Never);
+		}
+
+		[TestMethod]
 		public async Task GetCompany_QueryRepository_SaveAll_False_Return_500_Test()
 		{
 			this.queryRepositoryMock.Setup(m => m.SaveAll()).Returns(Task.FromResult(false));
@@ -50,6 +81,7 @@ namespace NIP.API.Tests
 			this.headerRepositoryMock.Verify(m => m.Add(It.IsAny<HeaderModel>()), Times.Once);
 			this.queryRepositoryMock.Verify(m => m.Add(It.IsAny<QueryModel>()), Times.Once);
 			this.queryRepositoryMock.Verify(m => m.SaveAll(), Times.Once);
+			this.companyRepositoryMock.Verify(m => m.Get(It.IsAny<FilterParams>()), Times.Never);
 		}
 
 		[TestMethod]
