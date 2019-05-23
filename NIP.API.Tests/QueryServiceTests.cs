@@ -60,5 +60,17 @@ namespace NIP.API.Tests
 			Assert.AreEqual("NIP", result.QueryParamName);
 			Assert.AreEqual("abc", result.QueryParamValue);
 		}
+
+		[TestMethod]
+		public void GetQueryModelFromFilterParams_All_Properties_Null_Return_Null()
+		{
+			var filterParams = new FilterParams();
+
+			var target = new QueryService();
+
+			var result = target.GetQueryModelFromFilterParams(filterParams);
+
+			Assert.IsNull(result);
+		}
 	}
 }
